@@ -43,10 +43,15 @@ namespace laboratorio_7
         {
             Button b = (Button)sender;
             operation = b.Text;
-            n1 = double.Parse(result.Text);
-            result.Clear();
-
-
+            try
+            {
+                n1 = double.Parse(result.Text);
+                result.Clear();
+            }
+            catch(System.FormatException)
+            {
+                result.Text = "SyntaxERROR ";
+            }
         }
 
         private void ButtonClick(object sender, EventArgs e)
@@ -63,36 +68,54 @@ namespace laboratorio_7
 
         private void same_Click(object sender, EventArgs e)
         {
-            n2 = double.Parse(result.Text);
+            bool a = true;
+            try
+            {
+                n2 = double.Parse(result.Text);
+            }
+            catch (System.FormatException)
+            {
+                result.Text = "SyntaxERROR ";
+                a = false;
+            }
             double sum;
             double res;
             double mul;
             double div;
-
-            switch(operation)
+            if (a == true)
             {
-                case "+":
-                    sum = obj.plus(n1, n2);
-                    result.Text = sum.ToString();
-                    lastans = sum.ToString();
-                    break;
-                case "-":
-                    res = obj2.Res(n1, n2);
-                    result.Text = res.ToString();
-                    lastans = res.ToString();
-                    break;
-                case "x":
-                    mul = obj3.multi(n1, n2);  
-                    result.Text = mul.ToString();
-                    lastans = mul.ToString();
-                    break;
-                case "/":
-                    div = obj4.Divi(n1, n2);
-                    result.Text = div.ToString();
-                    lastans = div.ToString();
-                    break;
-                default:
-                    break;
+                switch (operation)
+                {
+                    case "+":
+                        sum = obj.plus(n1, n2);
+                        result.Text = sum.ToString();
+                        lastans = sum.ToString();
+                        break;
+                    case "-":
+                        res = obj2.Res(n1, n2);
+                        result.Text = res.ToString();
+                        lastans = res.ToString();
+                        break;
+                    case "x":
+                        mul = obj3.multi(n1, n2);
+                        result.Text = mul.ToString();
+                        lastans = mul.ToString();
+                        break;
+                    case "/":
+                        if(n2 == 0)
+                        {
+                            result.Text = "MathERROR";
+                        }
+                        else
+                        {
+                            div = obj4.Divi(n1, n2);
+                            result.Text = div.ToString();
+                            lastans = div.ToString();
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
